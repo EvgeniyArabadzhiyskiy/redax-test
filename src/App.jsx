@@ -6,22 +6,24 @@ import Form from './components/TodoList/Form/Form';
 import Filter from './components/TodoList/Filter/Filter';
 import IconButton from './components/IconButton/IconButton';
 import Stats from 'components/TodoList/Stats/Stats';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useState } from 'react';
 
 // =================== Redux ==========
-import { useSelector } from 'react-redux';
-
+// import { useSelector } from 'react-redux';
+// import { getTodos } from 'redux/todos/todos-selectors';
 
 const App = () => {
-  const state = useSelector(state => state);
-  const { todos } = state.todos;
+  // ==== Без "redux-persist" ==== C Встроеным localStorage ===
+
+  // const todos = useSelector(getTodos);
+
+  // useEffect(() => {
+  //   localStorage.setItem('todos', JSON.stringify(todos));
+  // }, [todos]);
+  // ======================================================
 
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-  }, [todos]);
 
   const toggle = () => {
     setIsOpen(prevState => !prevState);
@@ -36,7 +38,7 @@ const App = () => {
 
         {isOpen && (
           <Modal onToggle={toggle}>
-            <Form />
+            <Form onAddAndSaveTodos={toggle} />
           </Modal>
         )}
       </div>
@@ -54,9 +56,6 @@ export default App;
 
 
 
-
-
-
 // const App = () => {
 
 //   const [todos] = useState(
@@ -69,22 +68,22 @@ export default App;
 //     localStorage.setItem('todos', JSON.stringify(todos));
 //   }, [todos]);
 
-//   const addTodos = () => {
-//     const addTask = {
-//       id: shortid.generate(),
-//       task: inputValue,
-//       complited: false,
-//     };
-//   }
+  // const addTodos = () => {
+  //   const addTask = {
+  //     id: shortid.generate(),
+  //     task: inputValue,
+  //     complited: false,
+  //   }; 
+  // }
 
 //   const handleSubmit = () => {
 //     addTodos()
 //     toggle();
 //   };
 
-//   const deleteTask = id => {
-//     setTodos(prevTodos => prevTodos.filter(todos => todos.id !== id));
-//   };
+  // const deleteTask = id => {
+  //   setTodos(prevTodos => prevTodos.filter(todos => todos.id !== id));
+  // };
 
 //   const toggleComplitd = id => {
 //     setTodos(prevTodos =>

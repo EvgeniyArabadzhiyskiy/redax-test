@@ -6,28 +6,34 @@ import Form from './components/TodoList/Form/Form';
 import Filter from './components/TodoList/Filter/Filter';
 import IconButton from './components/IconButton/IconButton';
 import Stats from 'components/TodoList/Stats/Stats';
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 
+
 // =================== Redux ==========
-// import { useSelector } from 'react-redux';
-// import { getTodos } from 'redux/todos/todos-selectors';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import todosOperation from 'redux/todos/todos-operation';
 
 const App = () => {
   // ==== Без "redux-persist" ==== C Встроеным localStorage ===
-
-  // const todos = useSelector(getTodos);
-
   // useEffect(() => {
   //   localStorage.setItem('todos', JSON.stringify(todos));
   // }, [todos]);
   // ======================================================
 
+  const dispatch = useDispatch();
+  const loading = useSelector(state => state.todos.loading);
+
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggle = () => {
+  useEffect(() => {
+    dispatch(todosOperation.fetchTodos());
+  }, [dispatch]);
+
+  function toggle() {
     setIsOpen(prevState => !prevState);
-  };
+  }
 
   return (
     <Container>
@@ -35,6 +41,8 @@ const App = () => {
         <IconButton onClick={toggle} aria-label="Добавить заметку">
           {<AddIcon width="40" height="40" />}
         </IconButton>
+
+        {loading && <h1>LOADING...</h1>}
 
         {isOpen && (
           <Modal onToggle={toggle}>
@@ -54,8 +62,6 @@ const App = () => {
 
 export default App;
 
-
-
 // const App = () => {
 
 //   const [todos] = useState(
@@ -68,22 +74,22 @@ export default App;
 //     localStorage.setItem('todos', JSON.stringify(todos));
 //   }, [todos]);
 
-  // const addTodos = () => {
-  //   const addTask = {
-  //     id: shortid.generate(),
-  //     task: inputValue,
-  //     complited: false,
-  //   }; 
-  // }
+// const addTodos = () => {
+//   const addTask = {
+//     id: shortid.generate(),
+//     task: inputValue,
+//     complited: false,
+//   };
+// }
 
 //   const handleSubmit = () => {
 //     addTodos()
 //     toggle();
 //   };
 
-  // const deleteTask = id => {
-  //   setTodos(prevTodos => prevTodos.filter(todos => todos.id !== id));
-  // };
+// const deleteTask = id => {
+//   setTodos(prevTodos => prevTodos.filter(todos => todos.id !== id));
+// };
 
 //   const toggleComplitd = id => {
 //     setTodos(prevTodos =>
